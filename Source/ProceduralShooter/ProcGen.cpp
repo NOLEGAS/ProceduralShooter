@@ -3,6 +3,8 @@
 
 #include "ProcGen.h"
 
+#include "Engine/LevelStreamingDynamic.h"
+
 
 // Sets default values
 AProcGen::AProcGen()
@@ -15,19 +17,17 @@ AProcGen::AProcGen()
 // Called when the game starts or when spawned
 void AProcGen::BeginPlay()
 {
+	bool success = false;
 	Super::BeginPlay();
-	
+	for (int i = 0; i < roomCount; i++)
+	{
+		ULevelStreamingDynamic::LoadLevelInstanceBySoftObjectPtr(GetWorld(), Worlds[i], GetTransform(), success);
+	}
+
 }
 
 // Called every frame
 void AProcGen::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-}
-
-void AProcGen::OnConstruction(const FTransform& Transform)
-{
-	//Spawns chunk actor at transform of procgen
-	//Possible issue with externally referencing Ulevel Chunk
-	GetWorld()->SpawnActor<AProcGen>(chunkToSpawn, Transform);
 }
