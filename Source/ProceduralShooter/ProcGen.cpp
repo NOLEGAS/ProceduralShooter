@@ -3,8 +3,6 @@
 
 #include "ProcGen.h"
 
-#include "Engine/LevelStreamingDynamic.h"
-
 
 // Sets default values
 AProcGen::AProcGen()
@@ -17,11 +15,11 @@ AProcGen::AProcGen()
 // Called when the game starts or when spawned
 void AProcGen::BeginPlay()
 {
-	bool success = false;
+	
 	Super::BeginPlay();
 	for (int i = 0; i < roomCount; i++)
 	{
-		ULevelStreamingDynamic::LoadLevelInstanceBySoftObjectPtr(GetWorld(), Worlds[i], GetTransform(), success);
+		LoadLevel(Worlds[i]);
 	}
 
 }
@@ -30,4 +28,11 @@ void AProcGen::BeginPlay()
 void AProcGen::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+bool AProcGen::LoadLevel(TSoftObjectPtr<UWorld> worldToLoad)
+{
+	bool success = false;
+	ULevelStreamingDynamic::LoadLevelInstanceBySoftObjectPtr(GetWorld(), worldToLoad, GetTransform(), success);
+	return success;
 }

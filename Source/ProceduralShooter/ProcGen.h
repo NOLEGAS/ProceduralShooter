@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Engine/LevelStreamingDynamic.h"
 #include "Engine/World.h"
 #include "Containers/List.h"
 #include "GameFramework/Actor.h"
@@ -21,6 +22,7 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	virtual bool LoadLevel(TSoftObjectPtr<UWorld> worldToLoad);
 
 public:
 	// Called every frame
