@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Engine/LevelStreamingDynamic.h"
+#include "Anchor.h"
+#include "Kismet/GameplayStatics.h"
 #include "Engine/World.h"
 #include "Containers/List.h"
 #include "GameFramework/Actor.h"
