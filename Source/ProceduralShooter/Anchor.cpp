@@ -11,6 +11,12 @@ AAnchor::AAnchor()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
+void AAnchor::OnConstruction(const FTransform& Transform)
+{
+	boxComponent = FindComponentByClass<UBoxComponent>();
+	boxSize = boxComponent->GetScaledBoxExtent();
+}
+
 // Called when the game starts or when spawned
 void AAnchor::BeginPlay()
 {

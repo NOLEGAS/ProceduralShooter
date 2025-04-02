@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/BoxComponent.h"
 #include "GameFramework/Actor.h"
 #include "Anchor.generated.h"
 
@@ -18,8 +19,13 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
+	virtual void OnConstruction(const FTransform& Transform) override;
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+private:
+	UPROPERTY()
+	UBoxComponent* boxComponent;
+	UPROPERTY()
+	FVector boxSize;
 };
