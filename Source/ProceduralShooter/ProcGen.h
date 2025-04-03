@@ -43,5 +43,5 @@ public:
 	UPROPERTY(EditAnywhere, meta = (ToolTip="Must not exceed Worlds amount", ClampMin="0"))
 	int32 roomCount;
 	UPROPERTY(EditAnywhere)
-	FVector moveAmount = FVector{0, 1000, 0};
+	FVector moveAmount = FVector{0, 0, 0};
 };
