@@ -25,6 +25,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	virtual bool LoadLevel(TSoftObjectPtr<UWorld> worldToLoad);
+	virtual void TempMover(FVector& location);
 
 public:
 	// Called every frame
@@ -41,4 +42,6 @@ public:
 	TArray<UWorld*> Worlds;
 	UPROPERTY(EditAnywhere, meta = (ToolTip="Must not exceed Worlds amount", ClampMin="0"))
 	int32 roomCount;
+	UPROPERTY(EditAnywhere)
+	FVector moveAmount = FVector{0, 1000, 0};
 };

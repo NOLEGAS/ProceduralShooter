@@ -20,6 +20,7 @@ void AProcGen::BeginPlay()
 	for (int i = 0; i < roomCount; i++)
 	{
 		LoadLevel(Worlds[i]);
+		TempMover(moveAmount);
 	}
 
 }
@@ -35,4 +36,10 @@ bool AProcGen::LoadLevel(TSoftObjectPtr<UWorld> worldToLoad)
 	bool success = false;
 	ULevelStreamingDynamic::LoadLevelInstanceBySoftObjectPtr(GetWorld(), worldToLoad, GetTransform(), success);
 	return success;
+}
+
+//Temporary solution for moving BP_Procgen
+void AProcGen::TempMover(FVector& location)
+{
+	SetActorLocation(GetActorLocation() + location);
 }
