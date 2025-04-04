@@ -39,9 +39,10 @@ public:
 	UPROPERTY()
 	int32 Z = 0;
 	UPROPERTY(editAnywhere)
-	TArray<UWorld*> Worlds;
+	TArray<TSoftObjectPtr <UWorld>> Worlds;
 	UPROPERTY(EditAnywhere, meta = (ToolTip="Must not exceed Worlds amount", ClampMin="0"))
 	int32 roomCount;
 	UPROPERTY(EditAnywhere)
-	FVector moveAmount = FVector{0, 0, 0};
+	FVector moveAmount = {0, 0, 0};
 };
+ 
