@@ -3,29 +3,25 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/BoxComponent.h"
-#include "GameFramework/Actor.h"
+#include "Components/ActorComponent.h"
 #include "Anchor.generated.h"
 
-UCLASS()
-class PROCEDURALSHOOTER_API AAnchor : public AActor
+
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
+class PROCEDURALSHOOTER_API UAnchor : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this actor's properties
-	AAnchor();
+	// Sets default values for this component's properties
+	UAnchor();
 
 protected:
-	// Called when the game starts or when spawned
+	// Called when the game starts
 	virtual void BeginPlay() override;
-	virtual void OnConstruction(const FTransform& Transform) override;
+
 public:
 	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-private:
-	UPROPERTY()
-	UBoxComponent* boxComponent;
-	UPROPERTY()
-	FVector boxSize;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
+	                           FActorComponentTickFunction* ThisTickFunction) override;
 };
