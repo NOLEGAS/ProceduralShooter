@@ -9,20 +9,19 @@ void AProcGenMode::StartPlay()
 {
 	for (int i = 0; i < roomCount; i++)
 	{
-		LoadLevel(Worlds[i]);
+		SpawnRoom(Rooms[i]);
 		TempMover(moveAmount);
 	}
 }
 
-bool AProcGenMode::LoadLevel(TSoftObjectPtr<UWorld> worldToLoad)
+void AProcGenMode::SpawnRoom(const TSoftClassPtr<ARoom>& RoomToLoad) const
 {
-	bool success = false;
-	ULevelStreamingDynamic::LoadLevelInstanceBySoftObjectPtr(GetWorld(), worldToLoad, FTransform(spawnLocation), success);
-	return success;
+	GetWorld()->SpawnActor<ARoom>(RoomToLoad.Get(),spawnLocation,spawnRotation);
 }
 
-//Temporary solution for moving BP_Procgen
-void AProcGenMode::TempMover(FVector& location)
+
+//Temporary solution for moving BP_ProcGen
+void AProcGenMode::TempMover(const FVector& Location)
 {
-	spawnLocation += location;
+	spawnLocation += Location;
 }

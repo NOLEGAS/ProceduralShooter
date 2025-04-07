@@ -3,7 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Room.h"
 #include "GameFramework/GameModeBase.h"
+#include "Engine/World.h"
 #include "Engine/LevelStreamingDynamic.h"
 #include "ProcGenMode.generated.h"
 
@@ -17,8 +19,8 @@ class PROCEDURALSHOOTER_API AProcGenMode : public AGameModeBase
 
 
 protected:
-	bool LoadLevel(TSoftObjectPtr<UWorld> worldToLoad);
-	void TempMover(FVector& location);
+	void SpawnRoom(const TSoftClassPtr<ARoom>& RoomToLoad) const;
+	void TempMover(const FVector& Location);
 	//Test both startplay and initgame
 	virtual void StartPlay() override;
 	//virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
@@ -31,10 +33,12 @@ public:
 	int32 Y = 0;
 	UPROPERTY()
 	int32 Z = 0;
-	UPROPERTY(editanywhere)
+	UPROPERTY()
 	FVector spawnLocation;
+	UPROPERTY()
+	FRotator spawnRotation;
 	UPROPERTY(editAnywhere)
-	TArray<TSoftObjectPtr <UWorld>> Worlds;
+	TArray<TSoftClassPtr <ARoom>> Rooms;
 	UPROPERTY(EditAnywhere, meta = (ToolTip="Must not exceed Worlds amount", ClampMin="0"))
 	int32 roomCount;
 	UPROPERTY(EditAnywhere)
