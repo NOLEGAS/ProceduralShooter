@@ -3,12 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/ActorComponent.h"
+#include "Components/SceneComponent.h"
 #include "Anchor.generated.h"
 
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class PROCEDURALSHOOTER_API UAnchor : public UActorComponent
+class PROCEDURALSHOOTER_API UAnchor : public USceneComponent
 {
 	GENERATED_BODY()
 
