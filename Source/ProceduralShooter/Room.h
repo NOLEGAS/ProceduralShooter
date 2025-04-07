@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Anchor.h"
 #include "GameFramework/Actor.h"
 #include "Room.generated.h"
 
@@ -14,7 +15,8 @@ class PROCEDURALSHOOTER_API ARoom : public AActor
 public:
 	// Sets default values for this actor's properties
 	ARoom();
-
+	UFUNCTION()
+	TArray<UAnchor*> GetAnchors() const;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

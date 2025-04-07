@@ -24,3 +24,17 @@ void ARoom::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+TArray<UAnchor*> ARoom::GetAnchors() const
+{
+	auto Anchors = TArray<UAnchor*>();
+	
+	for (auto const Child : GetComponents())
+	{
+		if (auto Anchor = Cast<UAnchor>(Child))
+		{
+			Anchors.Add(Anchor);
+		}
+	}
+	
+	return Anchors;
+}
