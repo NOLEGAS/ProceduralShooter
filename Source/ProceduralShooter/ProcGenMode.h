@@ -37,11 +37,12 @@ public:
 	FVector spawnLocation;
 	UPROPERTY()
 	FRotator spawnRotation;
-	UPROPERTY(editAnywhere)
-	TArray<TSoftClassPtr <ARoom>> Rooms;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<TSubclassOf<class ARoom>> Rooms;
 	UPROPERTY(EditAnywhere, meta = (ToolTip="Must not exceed Worlds amount", ClampMin="0"))
 	int32 roomCount;
 	UPROPERTY(EditAnywhere)
 	FVector moveAmount = {0, 0, 0};
+	
 
 };
