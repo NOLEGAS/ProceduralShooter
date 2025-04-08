@@ -7,6 +7,7 @@
 
 void AProcGenMode::StartPlay()
 {
+	Super::StartPlay();
 	for (int i = 0; i < roomCount; i++)
 	{
 		SpawnRoom(Rooms[i]);
