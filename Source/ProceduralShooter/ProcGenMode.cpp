@@ -10,7 +10,7 @@ void AProcGenMode::StartPlay()
 	Super::StartPlay();
 	for (int i = 0; i < roomCount; i++)
 	{
-		SpawnRoom(Rooms[i]);
+		SpawnRoom(Rooms[FMath::RandRange(0, Rooms.Num() - 1)]);
 		TempMover(moveAmount);
 	}
 }
