@@ -19,11 +19,10 @@ class PROCEDURALSHOOTER_API AProcGenMode : public AGameModeBase
 
 
 protected:
-	void SpawnRoom(const TSoftClassPtr<ARoom>& RoomToLoad) const;
-	void TempMover(const FVector& Location);
-	//Test both startplay and initgame
 	virtual void StartPlay() override;
-	//virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
+	void SpawnRoom(const TSoftClassPtr<ARoom>& RoomToLoad) const;
+	
+
 	
 public:
 	//Position of room
@@ -33,12 +32,14 @@ public:
 	int32 Y = 0;
 	UPROPERTY()
 	int32 Z = 0;
+	
 	UPROPERTY()
 	FVector spawnLocation;
 	UPROPERTY()
 	FRotator spawnRotation;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<TSubclassOf<class ARoom>> Rooms;
+	TArray<TSubclassOf<ARoom>> Rooms;
 	UPROPERTY(EditAnywhere, meta = (ToolTip="Must not exceed Worlds amount", ClampMin="0"))
 	int32 roomCount;
 	UPROPERTY(EditAnywhere)

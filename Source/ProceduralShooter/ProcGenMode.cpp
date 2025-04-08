@@ -8,11 +8,6 @@
 void AProcGenMode::StartPlay()
 {
 	Super::StartPlay();
-	//for (int i = 0; i < roomCount; i++)
-	//{
-	//	SpawnRoom(Rooms[FMath::RandRange(0, Rooms.Num() - 1)]);
-	//	TempMover(moveAmount);
-	//}
 	
 	if (auto const World = GetWorld())
         {
@@ -79,11 +74,4 @@ void AProcGenMode::StartPlay()
 void AProcGenMode::SpawnRoom(const TSoftClassPtr<ARoom>& RoomToLoad) const
 {
 	GetWorld()->SpawnActor<ARoom>(RoomToLoad.Get(),spawnLocation,spawnRotation);
-}
-
-
-//Temporary solution for moving BP_ProcGen
-void AProcGenMode::TempMover(const FVector& Location)
-{
-	spawnLocation += Location;
 }
