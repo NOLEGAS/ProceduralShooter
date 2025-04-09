@@ -17,7 +17,7 @@ void AProcGenMode::StartPlay()
             auto NewRoom = World->SpawnActor<ARoom>(Rooms[RandomIndex]);
             TArray<UAnchor*> Anchors = NewRoom->GetAnchors();
     
-            for (int32 i = 1; i < roomCount; i++)
+            for (int32 i = 1; i < RoomCount; i++)
             {
                 if (Anchors.Num() > 0)
                 {
@@ -69,9 +69,4 @@ void AProcGenMode::StartPlay()
                 }
             }
         }
-}
-
-void AProcGenMode::SpawnRoom(const TSoftClassPtr<ARoom>& RoomToLoad) const
-{
-	GetWorld()->SpawnActor<ARoom>(RoomToLoad.Get(),spawnLocation,spawnRotation);
 }
