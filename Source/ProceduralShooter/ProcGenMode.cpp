@@ -67,6 +67,11 @@ void AProcGenMode::StartPlay()
                     // No more anchors to use
                     break;
                 }
+                //Tells remaining anchors to plug hole
+                for (const auto Anchor: Anchors)
+                {
+                    Anchor->CloseHole();
+                }
             }
         }
 }

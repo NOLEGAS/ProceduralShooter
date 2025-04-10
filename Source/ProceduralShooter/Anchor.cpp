@@ -33,3 +33,9 @@ void UAnchor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponen
 	// ...
 }
 
+void UAnchor::CloseHole() const
+{
+	
+}
+
+
