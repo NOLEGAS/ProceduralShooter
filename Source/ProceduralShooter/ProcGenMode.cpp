@@ -68,10 +68,10 @@ void AProcGenMode::StartPlay()
                     break;
                 }
                 //Tells remaining anchors to plug hole
-                for (const auto Anchor: Anchors)
-                {
-                    Anchor->CloseHole();
-                }
+                //for (const auto Anchor: Anchors)
+                //{
+                //    Anchor->CloseHole();
+                //}
             }
         }
 }
