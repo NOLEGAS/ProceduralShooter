@@ -27,5 +27,5 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AActor> PlugActor;
 
-	//void CloseHole();
+	void CloseHole();
 };

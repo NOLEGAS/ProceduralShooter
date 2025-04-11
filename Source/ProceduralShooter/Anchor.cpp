@@ -33,8 +33,8 @@ void UAnchor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponen
 	// ...
 }
 
-//void UAnchor::CloseHole()
-//{
-//	GetWorld()->SpawnActor<AActor>(PlugActor, GetComponentLocation(), GetComponentRotation());
-//	DestroyComponent();
-//}
+void UAnchor::CloseHole()
+{
+	GetWorld()->SpawnActor<AActor>(PlugActor, GetComponentLocation(), GetComponentRotation());
+	DestroyComponent();
+}
