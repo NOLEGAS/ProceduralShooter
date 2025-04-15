@@ -11,10 +11,10 @@ void AProcGenMode::StartPlay()
 	
 	if (auto const World = GetWorld())
         {
-            const auto RandomIndex = FMath::RandRange(0, Rooms.Num() - 1);
+            const auto RandomIndex = FMath::RandRange(0, StartRooms.Num() - 1);
     
             // Spawn the starting room
-            auto NewRoom = World->SpawnActor<ARoom>(Rooms[RandomIndex]);
+            auto NewRoom = World->SpawnActor<ARoom>(StartRooms[RandomIndex]);
             TArray<UAnchor*> Anchors = NewRoom->GetAnchors();
     
             for (int32 i = 1; i < RoomCount; i++)

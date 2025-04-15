@@ -22,6 +22,8 @@ protected:
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<TSubclassOf<ARoom>> StartRooms;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<TSubclassOf<ARoom>> Rooms;
 	UPROPERTY(EditAnywhere, meta = (ToolTip="Must not exceed Worlds amount", ClampMin="0"))
 	int32 RoomCount;
