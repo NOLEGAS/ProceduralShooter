@@ -27,4 +27,8 @@ public:
 	TArray<TSubclassOf<ARoom>> Rooms;
 	UPROPERTY(EditAnywhere, meta = (ToolTip="Must not exceed Worlds amount", ClampMin="0"))
 	int32 RoomCount;
+	UPROPERTY(EditAnywhere, meta = (ClampMin="0"))
+	int32 enemyCount;
+	UPROPERTY(EditAnywhere, meta = (ClampMin="0"))
+	int32 enemyCountVariation;
 };

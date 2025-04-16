@@ -38,3 +38,18 @@ TArray<UAnchor*> ARoom::GetAnchors() const
 	
 	return Anchors;
 }
+
+TArray<USpawner*> ARoom::GetSpawners() const
+{
+	auto Spawners = TArray<USpawner*>();
+	
+	for (auto const Child : GetComponents())
+	{
+		if (auto Spawner = Cast<USpawner>(Child))
+		{
+			Spawners.Add(Spawner);
+		}
+	}
+	
+	return Spawners;
+}

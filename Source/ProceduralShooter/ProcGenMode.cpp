@@ -16,6 +16,7 @@ void AProcGenMode::StartPlay()
             // Spawn the starting room
             auto NewRoom = World->SpawnActor<ARoom>(StartRooms[RandomIndex]);
             TArray<UAnchor*> Anchors = NewRoom->GetAnchors();
+            TArray<USpawner*> Spawners = NewRoom->GetSpawners();
     
             for (int32 i = 1; i < RoomCount; i++)
             {
@@ -34,6 +35,7 @@ void AProcGenMode::StartPlay()
                         // Find an anchor in the new room to match the selected anchor
                         if (const TArray<UAnchor*> NewRoomAnchors = NewRoom->GetAnchors(); NewRoomAnchors.Num() > 0)
                         {
+                        	const TArray<USpawner*> NewRoomSpawners = NewRoom->GetSpawners();
                             const auto SecondAnchorIndex = FMath::RandRange(0, NewRoomAnchors.Num() - 1);
                             const UAnchor* NewRoomAnchor = NewRoomAnchors[SecondAnchorIndex];
     
@@ -59,6 +61,12 @@ void AProcGenMode::StartPlay()
                                     Anchors.Add(Anchor);
                                 }
                             }
+                        	// Add new Spawner from the newly spawned room
+                        	//TODO: Make only a set amount of enemies spawn with slight variation
+                            for (USpawner* Spawner : NewRoomSpawners)
+                            {
+                                    Spawners.Add(Spawner);
+                            }
                         }
                     }
                 }
@@ -74,5 +82,10 @@ void AProcGenMode::StartPlay()
 	        {
 	            Anchor->CloseHole();
 	        }
+			//Tells Spawners to spawn
+			for (const auto Spawner: Spawners)
+			{
+				Spawner->Spawn();
+			} 
         }
 }

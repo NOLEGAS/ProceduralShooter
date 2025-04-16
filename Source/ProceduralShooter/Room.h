@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Anchor.h"
+#include "Spawner.h"
 #include "GameFramework/Actor.h"
 #include "Room.generated.h"
 
@@ -17,6 +18,7 @@ public:
 	ARoom();
 	UFUNCTION()
 	TArray<UAnchor*> GetAnchors() const;
+	TArray<USpawner*> GetSpawners() const;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
