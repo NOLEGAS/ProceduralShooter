@@ -35,6 +35,11 @@ void USpawner::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 
 void USpawner::Spawn()
 {
-	GetWorld()->SpawnActor<AActor>(ActorToSpawn, GetComponentLocation(), GetComponentRotation());
+	AActor* SpawnedActor = GetWorld()->SpawnActor<AActor>(ActorToSpawn, GetComponentLocation(), GetComponentRotation());
+	if (SpawnedActor && GetOwner())
+	{
+		const FAttachmentTransformRules AttachmentRules = FAttachmentTransformRules::KeepWorldTransform;
+		SpawnedActor->AttachToActor(GetOwner(), AttachmentRules);
+	}
 	DestroyComponent();
 }

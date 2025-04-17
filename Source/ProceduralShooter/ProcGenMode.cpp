@@ -32,10 +32,11 @@ void AProcGenMode::StartPlay()
     
                     if (NewRoom)
                     {
+                    	const TArray<USpawner*> NewRoomSpawners = NewRoom->GetSpawners();
                         // Find an anchor in the new room to match the selected anchor
                         if (const TArray<UAnchor*> NewRoomAnchors = NewRoom->GetAnchors(); NewRoomAnchors.Num() > 0)
                         {
-                        	const TArray<USpawner*> NewRoomSpawners = NewRoom->GetSpawners();
+                        	//const TArray<USpawner*> NewRoomSpawners = NewRoom->GetSpawners();
                             const auto SecondAnchorIndex = FMath::RandRange(0, NewRoomAnchors.Num() - 1);
                             const UAnchor* NewRoomAnchor = NewRoomAnchors[SecondAnchorIndex];
     
@@ -62,11 +63,18 @@ void AProcGenMode::StartPlay()
                                 }
                             }
                         	// Add new Spawner from the newly spawned room
-                        	//TODO: Make only a set amount of enemies spawn with slight variation
-                            for (USpawner* Spawner : NewRoomSpawners)
-                            {
-                                    Spawners.Add(Spawner);
-                            }
+                        	for (int32 a = 1; a < enemyCount + FMath::RandRange(-enemyCountVariation, enemyCountVariation); a++)
+                        	{
+								if (NewRoomSpawners.Num() > 0)
+								{
+									USpawner* FinalSpawner = NewRoomSpawners[FMath::RandRange(0, NewRoomSpawners.Num() - 1)];
+									if (FinalSpawner && !Spawners.Contains(FinalSpawner))
+									{
+										Spawners.Add(FinalSpawner);	
+									}
+								}
+
+                        	}
                         }
                     }
                 }
