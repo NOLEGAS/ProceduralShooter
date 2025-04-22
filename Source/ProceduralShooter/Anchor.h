@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/BoxComponent.h"
 #include "Components/SceneComponent.h"
 #include "Anchor.generated.h"
 
@@ -26,6 +27,8 @@ public:
 	                           FActorComponentTickFunction* ThisTickFunction) override;
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AActor> PlugActor;
-
+	UPROPERTY()
+	UBoxComponent* NeighborDetector;
 	void CloseHole();
+	void DetectNeighbors();
 };

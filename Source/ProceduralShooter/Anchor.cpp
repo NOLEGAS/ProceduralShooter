@@ -10,7 +10,10 @@ UAnchor::UAnchor()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
+	NeighborDetector = CreateDefaultSubobject<UBoxComponent>(FName("NeighborDetector"));
+	NeighborDetector->AttachToComponent(this, FAttachmentTransformRules::KeepRelativeTransform);
+	NeighborDetector->SetBoxExtent(FVector(32.f, 32.f, 96.f));
+	NeighborDetector->SetRelativeLocation(FVector(50, 0, 0));
 	// ...
 }
 
@@ -37,4 +40,9 @@ void UAnchor::CloseHole()
 {
 	GetWorld()->SpawnActor<AActor>(PlugActor, GetComponentLocation(), GetComponentRotation());
 	DestroyComponent();
+}
+
+void UAnchor::DetectNeighbors()
+{
+	
 }
