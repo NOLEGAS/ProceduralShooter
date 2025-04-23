@@ -14,6 +14,7 @@ UAnchor::UAnchor()
 	NeighborDetector->AttachToComponent(this, FAttachmentTransformRules::KeepRelativeTransform);
 	NeighborDetector->SetBoxExtent(FVector(32.f, 32.f, 96.f));
 	NeighborDetector->SetRelativeLocation(FVector(50, 0, 0));
+	NeighborDetector->OnComponentBeginOverlap.AddDynamic(this, &UAnchor::DetectNeighbors);
 	// ...
 }
 
@@ -42,7 +43,14 @@ void UAnchor::CloseHole()
 	DestroyComponent();
 }
 
-void UAnchor::DetectNeighbors()
+void UAnchor::DetectNeighbors(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	
+    if (OtherActor && OtherActor->FindComponentByClass<UBoxComponent>() == OtherComp)
+    {
+        // Found another actor's BoxComponent
+    	if (GEngine)
+    	{
+    		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("[%s]Detected Neighbor! %s"), *GetOwner()->GetName(), *OtherActor->GetName()));
+    	}
+    }
 }
