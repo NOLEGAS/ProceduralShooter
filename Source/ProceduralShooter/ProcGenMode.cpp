@@ -31,6 +31,7 @@ void AProcGenMode::StartPlay()
                     const UAnchor* SelectedAnchor = Anchors[AnchorIndex];
     
                     // Spawn a new room
+                	//TODO Right now the spawning of rooms does not take into account if there is a room already there because it got spawned off another anchor much like the previous plug generation.
                     const auto RandomRoomIndex = FMath::RandRange(0, Rooms.Num() - 1);
                     NewRoom = World->SpawnActor<ARoom>(Rooms[RandomRoomIndex]);
     
