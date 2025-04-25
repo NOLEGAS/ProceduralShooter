@@ -17,7 +17,11 @@ void AProcGenMode::StartPlay()
             auto NewRoom = World->SpawnActor<ARoom>(StartRooms[RandomIndex]);
             TArray<UAnchor*> Anchors = NewRoom->GetAnchors();
             TArray<USpawner*> Spawners = NewRoom->GetSpawners();
-    
+
+			for (const auto Anchor : Anchors)
+			{
+				SpawnedAnchors.Add(Anchor);
+			}
             for (int32 i = 1; i < RoomCount; i++)
             {
                 if (Anchors.Num() > 0)
@@ -36,7 +40,10 @@ void AProcGenMode::StartPlay()
                         // Find an anchor in the new room to match the selected anchor
                         if (const TArray<UAnchor*> NewRoomAnchors = NewRoom->GetAnchors(); NewRoomAnchors.Num() > 0)
                         {
-                        	//const TArray<USpawner*> NewRoomSpawners = NewRoom->GetSpawners();
+                        	for (const auto Anchor : NewRoomAnchors)
+                        	{
+                        		SpawnedAnchors.Add(Anchor);
+                        	}
                             const auto SecondAnchorIndex = FMath::RandRange(0, NewRoomAnchors.Num() - 1);
                             const UAnchor* NewRoomAnchor = NewRoomAnchors[SecondAnchorIndex];
     
@@ -85,6 +92,23 @@ void AProcGenMode::StartPlay()
                 }
                 
             }
+
+			for (const auto AnchorA : SpawnedAnchors)
+			{
+				for (const auto AnchorB : SpawnedAnchors)
+				{
+					if (AnchorA == AnchorB) continue;
+ 
+					const auto Distance = FVector::Distance(AnchorA->GetComponentLocation(), AnchorB->GetComponentLocation());
+ 
+					if (Distance < NeighborDetectionDistance)
+					{
+						Anchors.Remove(AnchorA);
+						Anchors.Remove(AnchorB);
+					}
+				}
+			}
+			
 	        //Tells remaining anchors to plug hole
 	        for (const auto Anchor: Anchors)
 	        {
