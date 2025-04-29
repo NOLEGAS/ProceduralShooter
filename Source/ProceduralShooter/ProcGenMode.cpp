@@ -14,7 +14,7 @@ void AProcGenMode::StartPlay()
             const auto RandomIndex = FMath::RandRange(0, StartRooms.Num() - 1);
     
             // Spawn the starting room
-            auto NewRoom = World->SpawnActor<ARoom>(StartRooms[RandomIndex]);
+            ARoom* NewRoom = World->SpawnActor<ARoom>(StartRooms[RandomIndex]);
             TArray<UAnchor*> Anchors = NewRoom->GetAnchors();
             TArray<USpawner*> Spawners = NewRoom->GetSpawners();
 
@@ -31,16 +31,15 @@ void AProcGenMode::StartPlay()
                     const UAnchor* SelectedAnchor = Anchors[AnchorIndex];
     
                     // Spawn a new room
-                	/*TODO Right now the spawning of rooms does not take into account if there is a room already there because it got spawned off another anchor much like the previous plug generation.
-					This actually won't work since a room with a higher anchor won't get detected if the new room is not that same elevation. Need new system.*/
+                	/*TODO Rooms no longer spawn inside each other but pluhs still sometimes are missing Need to debug more thouroughly to discover what causes it.*/
                     const auto RandomRoomIndex = FMath::RandRange(0, Rooms.Num() - 1);
                     NewRoom = World->SpawnActor<ARoom>(Rooms[RandomRoomIndex]);
     
                     if (NewRoom)
                     {
-                    	const TArray<USpawner*> NewRoomSpawners = NewRoom->GetSpawners();
+                    	TArray<USpawner*> NewRoomSpawners = NewRoom->GetSpawners();
                         // Find an anchor in the new room to match the selected anchor
-                        if (const TArray<UAnchor*> NewRoomAnchors = NewRoom->GetAnchors(); NewRoomAnchors.Num() > 0)
+                        if (TArray<UAnchor*> NewRoomAnchors = NewRoom->GetAnchors(); NewRoomAnchors.Num() > 0)
                         {
                         	for (const auto Anchor : NewRoomAnchors)
                         	{
@@ -59,6 +58,17 @@ void AProcGenMode::StartPlay()
                             const FVector NewRoomAnchorOffset = NewRoomAnchor->GetComponentLocation() - NewRoom->GetActorLocation();
                             const FVector Offset = SelectedAnchor->GetComponentLocation() - NewRoomAnchorOffset;
                             NewRoom->SetActorLocation(NewRoom->GetActorLocation() + Offset);
+
+                        	//Check if there is a room already there
+                        	if (IsValid(NewRoom) && NewRoom->GetRoomOverlap() && NewRoom)
+                        	{
+                        			NewRoomAnchors.Empty();
+                        			NewRoomSpawners.Empty();
+                        			NewRoom->Destroy();
+                        			//i--;
+                        			continue;
+                        	}
+                        	
     
                             // Remove the used anchor
                             Anchors.RemoveAt(AnchorIndex);
