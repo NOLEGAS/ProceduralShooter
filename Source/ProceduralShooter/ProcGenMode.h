@@ -19,6 +19,8 @@ class PROCEDURALSHOOTER_API AProcGenMode : public AGameModeBase
 private:
 	UPROPERTY()
 	TArray<UAnchor*> SpawnedAnchors;
+	UPROPERTY()
+	TArray<UAnchor*> RemovedAnchors;
 	
 protected:
 	virtual void StartPlay() override;

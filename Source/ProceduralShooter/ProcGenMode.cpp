@@ -31,7 +31,7 @@ void AProcGenMode::StartPlay()
                     const UAnchor* SelectedAnchor = Anchors[AnchorIndex];
     
                     // Spawn a new room
-                	/*TODO Rooms no longer spawn inside each other but pluhs still sometimes are missing Need to debug more thouroughly to discover what causes it.*/
+                	/*TODO Rooms no longer spawn inside each other, but plugs still sometimes are missing. Need to debug more thoroughly to discover what causes it.*/
                     const auto RandomRoomIndex = FMath::RandRange(0, Rooms.Num() - 1);
                     NewRoom = World->SpawnActor<ARoom>(Rooms[RandomRoomIndex]);
     
@@ -81,7 +81,7 @@ void AProcGenMode::StartPlay()
                                     Anchors.Add(Anchor);
                                 }
                             }
-                        	// Add new Spawner from the newly spawned room
+                        	// Add a new Spawner from the newly spawned room
                         	for (int32 a = 1; a < enemyCount + FMath::RandRange(-enemyCountVariation, enemyCountVariation); a++)
                         	{
 								if (NewRoomSpawners.Num() > 0)
@@ -117,6 +117,10 @@ void AProcGenMode::StartPlay()
 					{
 						Anchors.Remove(AnchorA);
 						Anchors.Remove(AnchorB);
+						RemovedAnchors.Add(AnchorA);
+						RemovedAnchors.Add(AnchorB);
+						UE_LOG(LogTemp, Warning, TEXT("Because anchors were close to another: Removed %s from [%s] & %s from [%s]"), *AnchorA->GetName(), *AnchorA->GetAttachParentActor()->GetName(),
+						*AnchorB->GetName(), *AnchorB->GetAttachParentActor()->GetName());
 					}
 				}
 			}
