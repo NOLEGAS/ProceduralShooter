@@ -65,7 +65,7 @@ void AProcGenMode::StartPlay()
                         			NewRoomAnchors.Empty();
                         			NewRoomSpawners.Empty();
                         			NewRoom->Destroy();
-                        			//i--;
+                        			i--;
                         			continue;
                         	}
                         	
