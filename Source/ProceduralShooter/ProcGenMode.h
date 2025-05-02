@@ -49,5 +49,5 @@ public:
 	int32 enemyCountVariation;
 	UPROPERTY(Editanywhere, BlueprintReadWrite)
 	int32 Seed;
-
+	//Faulty seeds:
 };

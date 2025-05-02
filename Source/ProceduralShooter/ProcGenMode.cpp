@@ -42,10 +42,7 @@ void AProcGenMode::BeginPlay()
                         // Find an anchor in the new room to match the selected anchor
                         if (NewRoomAnchors = NewRoom->GetAnchors(); NewRoomAnchors.Num() > 0)
                         {
-                        	for (const auto Anchor : NewRoomAnchors)
-                        	{
-                        		SpawnedAnchors.Add(Anchor);
-                        	}
+                        	
                             const auto SecondAnchorIndex = RandomStream.RandRange(0, NewRoomAnchors.Num() - 1);
                             const UAnchor* NewRoomAnchor = NewRoomAnchors[SecondAnchorIndex];
     
@@ -62,13 +59,15 @@ void AProcGenMode::BeginPlay()
                         	                    	//Check if there is a room already there
                         	if (IsValid(NewRoom) && NewRoom->GetRoomOverlap() && NewRoom)
                         	{
-                        			NewRoomAnchors.Empty();
-                        			NewRoomSpawners.Empty();
                         			NewRoom->Destroy();
                         			i--;
                         			continue;
                         	}
                         	
+                        	for (const auto Anchor : NewRoomAnchors)
+                        	{
+                        		SpawnedAnchors.Add(Anchor);
+                        	}
     
                             // Remove the used anchor
                             Anchors.RemoveAt(AnchorIndex);
