@@ -21,9 +21,18 @@ private:
 	TArray<UAnchor*> SpawnedAnchors;
 	UPROPERTY()
 	TArray<UAnchor*> RemovedAnchors;
+	UPROPERTY()
+	TArray<UAnchor*> NewRoomAnchors;
+	//UPROPERTY()
+	//const UAnchor* NewRoomAnchor;
+	UPROPERTY()
+	TArray<UAnchor*> Anchors;
+	UPROPERTY()
+	TArray<USpawner*> Spawners;
 	
 protected:
 	virtual void StartPlay() override;
+	virtual void BeginPlay() override;
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -38,4 +47,7 @@ public:
 	int32 enemyCount;
 	UPROPERTY(EditAnywhere, meta = (ClampMin="0"))
 	int32 enemyCountVariation;
+	UPROPERTY(Editanywhere, BlueprintReadWrite)
+	int32 Seed;
+
 };

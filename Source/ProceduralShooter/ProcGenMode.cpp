@@ -3,20 +3,21 @@
 
 #include "ProcGenMode.h"
 
-
-
-void AProcGenMode::StartPlay()
+void AProcGenMode::BeginPlay()
 {
-	Super::StartPlay();
-	
+	Super::BeginPlay();
 	if (auto const World = GetWorld())
         {
-            const auto RandomIndex = FMath::RandRange(0, StartRooms.Num() - 1);
+			//Sets seed for generation and if the seed variable is set in the header then it uses that. (For testing)
+			const auto RandomSeed = Seed != 0 ? Seed : FMath::Rand();
+			FRandomStream RandomStream(RandomSeed);
+            const auto RandomIndex = RandomStream.RandRange(0, StartRooms.Num() - 1);
+			UE_LOG(LogTemp, Warning, TEXT("Seed: %d"), RandomSeed);
     
             // Spawn the starting room
             ARoom* NewRoom = World->SpawnActor<ARoom>(StartRooms[RandomIndex]);
-            TArray<UAnchor*> Anchors = NewRoom->GetAnchors();
-            TArray<USpawner*> Spawners = NewRoom->GetSpawners();
+            Anchors = NewRoom->GetAnchors();
+            Spawners = NewRoom->GetSpawners();
 
 			for (const auto Anchor : Anchors)
 			{
@@ -27,25 +28,25 @@ void AProcGenMode::StartPlay()
                 if (Anchors.Num() > 0)
                 {
                     // Pick a random anchor
-                    const auto AnchorIndex = FMath::RandRange(0, Anchors.Num() - 1);
+                    const auto AnchorIndex = RandomStream.RandRange(0, Anchors.Num() - 1);
                     const UAnchor* SelectedAnchor = Anchors[AnchorIndex];
     
                     // Spawn a new room
                 	/*TODO Rooms no longer spawn inside each other, but plugs still sometimes are missing. Need to debug more thoroughly to discover what causes it.*/
-                    const auto RandomRoomIndex = FMath::RandRange(0, Rooms.Num() - 1);
+                    const auto RandomRoomIndex = RandomStream.RandRange(0, Rooms.Num() - 1);
                     NewRoom = World->SpawnActor<ARoom>(Rooms[RandomRoomIndex]);
     
                     if (NewRoom)
                     {
                     	TArray<USpawner*> NewRoomSpawners = NewRoom->GetSpawners();
                         // Find an anchor in the new room to match the selected anchor
-                        if (TArray<UAnchor*> NewRoomAnchors = NewRoom->GetAnchors(); NewRoomAnchors.Num() > 0)
+                        if (NewRoomAnchors = NewRoom->GetAnchors(); NewRoomAnchors.Num() > 0)
                         {
                         	for (const auto Anchor : NewRoomAnchors)
                         	{
                         		SpawnedAnchors.Add(Anchor);
                         	}
-                            const auto SecondAnchorIndex = FMath::RandRange(0, NewRoomAnchors.Num() - 1);
+                            const auto SecondAnchorIndex = RandomStream.RandRange(0, NewRoomAnchors.Num() - 1);
                             const UAnchor* NewRoomAnchor = NewRoomAnchors[SecondAnchorIndex];
     
                             // Calculate the rotation so that the anchors face each other
@@ -58,8 +59,7 @@ void AProcGenMode::StartPlay()
                             const FVector NewRoomAnchorOffset = NewRoomAnchor->GetComponentLocation() - NewRoom->GetActorLocation();
                             const FVector Offset = SelectedAnchor->GetComponentLocation() - NewRoomAnchorOffset;
                             NewRoom->SetActorLocation(NewRoom->GetActorLocation() + Offset);
-
-                        	//Check if there is a room already there
+                        	                    	//Check if there is a room already there
                         	if (IsValid(NewRoom) && NewRoom->GetRoomOverlap() && NewRoom)
                         	{
                         			NewRoomAnchors.Empty();
@@ -82,7 +82,7 @@ void AProcGenMode::StartPlay()
                                 }
                             }
                         	// Add a new Spawner from the newly spawned room
-                        	for (int32 a = 1; a < enemyCount + FMath::RandRange(-enemyCountVariation, enemyCountVariation); a++)
+                        	for (int32 a = 1; a < enemyCount + RandomStream.RandRange(-enemyCountVariation, enemyCountVariation); a++)
                         	{
 								if (NewRoomSpawners.Num() > 0)
 								{
@@ -106,36 +106,46 @@ void AProcGenMode::StartPlay()
                 
             }
 
-			for (const auto AnchorA : SpawnedAnchors)
-			{
-				for (const auto AnchorB : SpawnedAnchors)
-				{
-					if (AnchorA == AnchorB) continue;
- 
-					const auto Distance = FVector::Distance(AnchorA->GetComponentLocation(), AnchorB->GetComponentLocation());
- 
-					if (Distance < NeighborDetectionDistance)
-					{
-						//Removes AnchorA and AnchorB from the array of anchors that get closehole called
-						Anchors.Remove(AnchorA);
-						Anchors.Remove(AnchorB);
-						RemovedAnchors.Add(AnchorA);
-						RemovedAnchors.Add(AnchorB);
-						UE_LOG(LogTemp, Warning, TEXT("Because anchors were close to another: Removed %s from [%s] & %s from [%s]"), *AnchorA->GetName(), *AnchorA->GetAttachParentActor()->GetName(),
-						*AnchorB->GetName(), *AnchorB->GetAttachParentActor()->GetName());
-					}
-				}
-			}
-			
-	        //Tells remaining anchors to plug hole
-	        for (const auto Anchor: Anchors)
-	        {
-	            Anchor->CloseHole();
-	        }
-			//Tells Spawners to spawn
-			for (const auto Spawner: Spawners)
-			{
-				Spawner->Spawn();
-			} 
+			 
         }
+}
+
+
+void AProcGenMode::StartPlay()
+{
+	Super::StartPlay();
+	
+	
+	for (const auto AnchorA : SpawnedAnchors)
+	{
+		for (const auto AnchorB : SpawnedAnchors)
+		{
+			if (AnchorA == AnchorB) continue;
+ 
+			const auto Distance = FVector::Distance(AnchorA->GetComponentLocation(), AnchorB->GetComponentLocation());
+ 
+			if (Distance < NeighborDetectionDistance)
+			{
+				//Removes AnchorA and AnchorB from the array of anchors that get closehole called
+				Anchors.Remove(AnchorA);
+				Anchors.Remove(AnchorB);
+				RemovedAnchors.Add(AnchorA);
+				RemovedAnchors.Add(AnchorB);
+				UE_LOG(LogTemp, Warning, TEXT("Because anchors were close to another: Removed %s from [%s] & %s from [%s]"), *AnchorA->GetName(), *AnchorA->GetAttachParentActor()->GetName(),
+				*AnchorB->GetName(), *AnchorB->GetAttachParentActor()->GetName());
+			}
+		}
+	}
+			
+	//Tells remaining anchors to plug hole
+	for (const auto Anchor: Anchors)
+	{
+		Anchor->CloseHole();
+	}
+	//Tells Spawners to spawn
+	for (const auto Spawner: Spawners)
+	{
+		Spawner->Spawn();
+	}
+    
 }
