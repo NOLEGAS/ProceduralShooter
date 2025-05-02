@@ -34,6 +34,7 @@ void UAnchor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponen
 
 void UAnchor::CloseHole()
 {
+	//creates a plugactor and then destroys anchor.
 	GetWorld()->SpawnActor<AActor>(PlugActor, GetComponentLocation(), GetComponentRotation());
 	DestroyComponent();
 }

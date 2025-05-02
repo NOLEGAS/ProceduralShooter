@@ -100,6 +100,7 @@ void AProcGenMode::StartPlay()
                 else
                 {
                     // No more anchors to use
+                	UE_LOG(LogTemp, Warning, TEXT("No anchors to use"));
                     break;
                 }
                 
@@ -115,6 +116,7 @@ void AProcGenMode::StartPlay()
  
 					if (Distance < NeighborDetectionDistance)
 					{
+						//Removes AnchorA and AnchorB from the array of anchors that get closehole called
 						Anchors.Remove(AnchorA);
 						Anchors.Remove(AnchorB);
 						RemovedAnchors.Add(AnchorA);
