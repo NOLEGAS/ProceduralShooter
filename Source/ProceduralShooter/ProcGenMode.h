@@ -29,6 +29,8 @@ private:
 	TArray<UAnchor*> Anchors;
 	UPROPERTY()
 	TArray<USpawner*> Spawners;
+	UPROPERTY()
+	TArray<ARoom*> RoomsSpawned;
 	
 protected:
 	virtual void StartPlay() override;

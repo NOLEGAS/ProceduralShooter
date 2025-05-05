@@ -18,6 +18,7 @@ void AProcGenMode::BeginPlay()
             ARoom* NewRoom = World->SpawnActor<ARoom>(StartRooms[RandomIndex]);
             Anchors = NewRoom->GetAnchors();
             Spawners = NewRoom->GetSpawners();
+			RoomsSpawned.Add(NewRoom);
 
 			for (const auto Anchor : Anchors)
 			{
@@ -56,7 +57,7 @@ void AProcGenMode::BeginPlay()
                             const FVector NewRoomAnchorOffset = NewRoomAnchor->GetComponentLocation() - NewRoom->GetActorLocation();
                             const FVector Offset = SelectedAnchor->GetComponentLocation() - NewRoomAnchorOffset;
                             NewRoom->SetActorLocation(NewRoom->GetActorLocation() + Offset);
-                        	                    	//Check if there is a room already there
+                        	//Check if there is a room already there
                         	if (IsValid(NewRoom) && NewRoom->GetRoomOverlap() && NewRoom)
                         	{
                         			NewRoom->Destroy();
@@ -68,6 +69,8 @@ void AProcGenMode::BeginPlay()
                         	{
                         		SpawnedAnchors.Add(Anchor);
                         	}
+                        	//Adds new room to RoomsSpawned
+                        	RoomsSpawned.Add(NewRoom);
     
                             // Remove the used anchor
                             Anchors.RemoveAt(AnchorIndex);
@@ -135,7 +138,11 @@ void AProcGenMode::StartPlay()
 			}
 		}
 	}
-			
+	//Removes Detectionboxes used for room collision from rooms
+	for (const auto Room : RoomsSpawned)
+	{
+		Room->DetectionBox->DestroyComponent();
+	}
 	//Tells remaining anchors to plug hole
 	for (const auto Anchor: Anchors)
 	{
