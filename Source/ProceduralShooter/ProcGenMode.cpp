@@ -133,8 +133,6 @@ void AProcGenMode::StartPlay()
 				Anchors.Remove(AnchorB);
 				RemovedAnchors.Add(AnchorA);
 				RemovedAnchors.Add(AnchorB);
-				UE_LOG(LogTemp, Warning, TEXT("Because anchors were close to another: Removed %s from [%s] & %s from [%s]"), *AnchorA->GetName(), *AnchorA->GetAttachParentActor()->GetName(),
-				*AnchorB->GetName(), *AnchorB->GetAttachParentActor()->GetName());
 			}
 		}
 	}
