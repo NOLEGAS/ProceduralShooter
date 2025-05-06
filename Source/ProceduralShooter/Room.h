@@ -30,7 +30,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	UPROPERTY(EditAnywhere)
-	UBoxComponent* DetectionBox;
+	UBoxComponent* DetectionBox; //box component used for checking room collision against a single simple shape
 	UPROPERTY(VisibleAnywhere)
 	USceneComponent* Root;
 	UPROPERTY(EditAnywhere)
