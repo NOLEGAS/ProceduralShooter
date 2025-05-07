@@ -83,17 +83,30 @@ void AProcGenMode::BeginPlay()
                                     Anchors.Add(Anchor);
                                 }
                             }
-                        	// Add a new Spawner from the newly spawned room
+                        	// Add a new Spawner from the newly spawned room (enemies)
                         	for (int32 a = 1; a < enemyCount + RandomStream.RandRange(-enemyCountVariation, enemyCountVariation); a++)
                         	{
 								if (NewRoomSpawners.Num() > 0)
 								{
 									USpawner* FinalSpawner = NewRoomSpawners[FMath::RandRange(0, NewRoomSpawners.Num() - 1)];
-									if (FinalSpawner && !Spawners.Contains(FinalSpawner))
+									if (FinalSpawner && !Spawners.Contains(FinalSpawner) && FinalSpawner->IsEnemy)
 									{
-										Spawners.Add(FinalSpawner);	
+										Spawners.Add(FinalSpawner);
 									}
 								}
+
+                        	}
+                        	// Add a new Spawner from the newly spawned room (pickups)
+                        	for (int32 b = 1; b < PickupCount + RandomStream.RandRange(-PickupCountVariation, PickupCountVariation); b++)
+                        	{
+                        		if (NewRoomSpawners.Num() > 0)
+                        		{
+                        			USpawner* FinalSpawner = NewRoomSpawners[FMath::RandRange(0, NewRoomSpawners.Num() - 1)];
+                        			if (FinalSpawner && !Spawners.Contains(FinalSpawner) && !FinalSpawner->IsEnemy)
+                        			{
+                        				Spawners.Add(FinalSpawner);
+                        			}
+                        		}
 
                         	}
                         }

@@ -49,6 +49,10 @@ public:
 	int32 enemyCount;
 	UPROPERTY(EditAnywhere, meta = (ClampMin="0"))
 	int32 enemyCountVariation;
+	UPROPERTY(EditAnywhere, meta = (ClampMin="0"))
+	int32 PickupCount;
+	UPROPERTY(EditAnywhere, meta = (ClampMin="0"))
+	int32 PickupCountVariation;
 	UPROPERTY(Editanywhere, BlueprintReadWrite)
 	int32 Seed;
 	//Faulty seeds:

@@ -28,5 +28,7 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AActor> ActorToSpawn;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool IsEnemy = true;
 	void Spawn();
 };
