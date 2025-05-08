@@ -38,6 +38,7 @@ void USpawner::Spawn()
 	AActor* SpawnedActor = GetWorld()->SpawnActor<AActor>(ActorToSpawn, GetComponentLocation(), GetComponentRotation());
 	if (SpawnedActor && GetOwner())
 	{
+		isUsed = true;
 		const FAttachmentTransformRules AttachmentRules = FAttachmentTransformRules::KeepWorldTransform;
 		SpawnedActor->AttachToActor(GetOwner(), AttachmentRules);
 	}

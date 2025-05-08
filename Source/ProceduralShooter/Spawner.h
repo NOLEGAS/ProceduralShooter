@@ -30,5 +30,6 @@ public:
 	TSubclassOf<AActor> ActorToSpawn;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool IsEnemy = true;
+	bool isUsed = false;
 	void Spawn();
 };

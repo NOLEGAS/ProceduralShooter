@@ -83,32 +83,17 @@ void AProcGenMode::BeginPlay()
                                     Anchors.Add(Anchor);
                                 }
                             }
-                        	// Add a new Spawner from the newly spawned room (enemies)
-                        	for (int32 a = 1; a < enemyCount + RandomStream.RandRange(-enemyCountVariation, enemyCountVariation); a++)
-                        	{
-								if (NewRoomSpawners.Num() > 0)
-								{
-									USpawner* FinalSpawner = NewRoomSpawners[FMath::RandRange(0, NewRoomSpawners.Num() - 1)];
-									if (FinalSpawner && !Spawners.Contains(FinalSpawner) && FinalSpawner->IsEnemy)
-									{
-										Spawners.Add(FinalSpawner);
-									}
-								}
-
-                        	}
-                        	// Add a new Spawner from the newly spawned room (pickups)
-                        	for (int32 b = 1; b < PickupCount + RandomStream.RandRange(-PickupCountVariation, PickupCountVariation); b++)
-                        	{
+                        	
+                        	
+                        		// Add the Spawners from the newly spawned room
                         		if (NewRoomSpawners.Num() > 0)
                         		{
-                        			USpawner* FinalSpawner = NewRoomSpawners[FMath::RandRange(0, NewRoomSpawners.Num() - 1)];
-                        			if (FinalSpawner && !Spawners.Contains(FinalSpawner) && !FinalSpawner->IsEnemy)
+                        			for (int32 a = 1; a < NewRoomSpawners.Num(); a++)
                         			{
-                        				Spawners.Add(FinalSpawner);
+                        				if (!Spawners.Contains(NewRoomSpawners[a]))
+                        				Spawners.Add(NewRoomSpawners[a]);
                         			}
                         		}
-
-                        	}
                         }
                     }
                 }
@@ -159,9 +144,39 @@ void AProcGenMode::StartPlay()
 	{
 		Anchor->CloseHole();
 	}
-	//Tells Spawners to spawn
-	for (const auto Spawner: Spawners)
+	//TODO: Fix multiple enemies and pickups being spawned by the same spawner
+	//Tells Spawners to spawn (Pickups)
+	for (int32 b = 1; b < PickupCount + FMath::RandRange(-PickupCountVariation, PickupCountVariation); b++)
 	{
+		int32 MaxIterations = 0;
+		auto Spawner = Spawners[FMath::RandRange(0, Spawners.Num() - 1)];
+		while (Spawner->IsEnemy || Spawner->isUsed)
+		{
+			Spawner = Spawners[FMath::RandRange(0, Spawners.Num() - 1)];
+			MaxIterations++;
+			if (MaxIterations > 20)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Pickup Spawner not found"));
+				break;
+			}
+		}
+		Spawner->Spawn();
+	}
+	//Tells Spawners to spawn (Enemies)
+	for (int32 b = 1; b < enemyCount + FMath::RandRange(-enemyCountVariation, enemyCountVariation); b++)
+	{
+		int32 MaxIterations = 0;
+		auto Spawner = Spawners[FMath::RandRange(0, Spawners.Num() - 1)];
+		while (!Spawner->IsEnemy || Spawner->isUsed)
+		{
+			Spawner = Spawners[FMath::RandRange(0, Spawners.Num() - 1)];
+			MaxIterations++;
+			if (MaxIterations > 20)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Enemy Spawner not found"));
+				break;
+			}
+		}
 		Spawner->Spawn();
 	}
     
