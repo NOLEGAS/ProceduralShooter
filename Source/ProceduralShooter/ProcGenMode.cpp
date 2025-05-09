@@ -144,7 +144,6 @@ void AProcGenMode::StartPlay()
 	{
 		Anchor->CloseHole();
 	}
-	//TODO: Fix multiple enemies and pickups being spawned by the same spawner
 	//Tells Spawners to spawn (Pickups)
 	for (int32 b = 1; b < PickupCount + FMath::RandRange(-PickupCountVariation, PickupCountVariation); b++)
 	{
