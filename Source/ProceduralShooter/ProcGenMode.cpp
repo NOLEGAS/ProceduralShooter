@@ -154,13 +154,16 @@ void AProcGenMode::StartPlay()
 		{
 			Spawner = Spawners[FMath::RandRange(0, Spawners.Num() - 1)];
 			MaxIterations++;
-			if (MaxIterations > 20)
+			if (MaxIterations > SpawnProbeIterations)
 			{
 				UE_LOG(LogTemp, Warning, TEXT("Pickup Spawner not found"));
 				break;
 			}
 		}
-		Spawner->Spawn();
+		if (MaxIterations < SpawnProbeIterations)
+		{
+			Spawner->Spawn();
+		}
 	}
 	//Tells Spawners to spawn (Enemies)
 	for (int32 b = 1; b < enemyCount + FMath::RandRange(-enemyCountVariation, enemyCountVariation); b++)
@@ -171,13 +174,16 @@ void AProcGenMode::StartPlay()
 		{
 			Spawner = Spawners[FMath::RandRange(0, Spawners.Num() - 1)];
 			MaxIterations++;
-			if (MaxIterations > 20)
+			if (MaxIterations > SpawnProbeIterations)
 			{
 				UE_LOG(LogTemp, Warning, TEXT("Enemy Spawner not found"));
 				break;
 			}
 		}
-		Spawner->Spawn();
+		if (MaxIterations < SpawnProbeIterations)
+		{
+			Spawner->Spawn();
+		}
 	}
     
 }

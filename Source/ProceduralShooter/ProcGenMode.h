@@ -55,5 +55,7 @@ public:
 	int32 PickupCountVariation;
 	UPROPERTY(Editanywhere, BlueprintReadWrite)
 	int32 Seed;
+	UPROPERTY(Editanywhere, BlueprintReadWrite)
+	int32 SpawnProbeIterations = 100;
 	//Faulty seeds:
 };
