@@ -15,7 +15,7 @@ class PROCEDURALSHOOTER_API UProcGenGameInstance : public UGameInstance
 	GENERATED_BODY()
 
 private:
-	virtual void Init() override;
+	virtual void OnStart() override;
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

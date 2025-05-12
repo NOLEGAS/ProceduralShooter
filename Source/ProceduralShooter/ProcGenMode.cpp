@@ -41,7 +41,6 @@ void AProcGenMode::BeginPlay()
                     const UAnchor* SelectedAnchor = Anchors[AnchorIndex];
     
                     // Spawn a new room
-                	/*TODO Rooms no longer spawn inside each other, but plugs still sometimes are missing. Need to debug more thoroughly to discover what causes it.*/
                     const auto RandomRoomIndex = RandomStream.RandRange(0, Rooms.Num() - 1);
                     NewRoom = World->SpawnActor<ARoom>(Rooms[RandomRoomIndex]);
     

@@ -19,7 +19,7 @@ int32 UProcGenGameInstance::GenerateSeed()
 	return InstanceSeed != 0 ? InstanceSeed : FMath::Rand();
 }
 
-void UProcGenGameInstance::Init()
+void UProcGenGameInstance::OnStart()
 {
 	InstanceSeed = GenerateSeed();
 }
