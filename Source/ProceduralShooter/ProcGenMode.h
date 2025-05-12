@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ProcGenGameInstance.h"
 #include "Room.h"
 #include "GameFramework/GameModeBase.h"
 #include "Engine/World.h"
@@ -55,7 +56,11 @@ public:
 	int32 PickupCountVariation;
 	UPROPERTY(Editanywhere, BlueprintReadWrite)
 	int32 Seed;
+	//Faulty seeds:
+	UPROPERTY()
+	int32 RandomSeed;
 	UPROPERTY(Editanywhere, BlueprintReadWrite)
 	int32 SpawnProbeIterations = 100;
-	//Faulty seeds:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite);
+	UProcGenGameInstance* SeedGameInstance;
 };

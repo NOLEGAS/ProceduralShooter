@@ -8,8 +8,16 @@ void AProcGenMode::BeginPlay()
 	Super::BeginPlay();
 	if (auto const World = GetWorld())
         {
+			SeedGameInstance = Cast<UProcGenGameInstance>(World->GetGameInstance());
 			//Sets seed for generation and if the seed variable is set in the header then it uses that. (For testing)
-			const auto RandomSeed = Seed != 0 ? Seed : FMath::Rand();
+			if (SeedGameInstance)
+			{
+				RandomSeed = SeedGameInstance->GetSeed();
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Failed to set seed"));
+			}
 			FRandomStream RandomStream(RandomSeed);
             const auto RandomIndex = RandomStream.RandRange(0, StartRooms.Num() - 1);
 			UE_LOG(LogTemp, Warning, TEXT("Seed: %d"), RandomSeed);
@@ -144,44 +152,55 @@ void AProcGenMode::StartPlay()
 	{
 		Anchor->CloseHole();
 	}
+
+	FRandomStream RandomStream(RandomSeed);
+	
 	//Tells Spawners to spawn (Pickups)
-	for (int32 b = 1; b < PickupCount + FMath::RandRange(-PickupCountVariation, PickupCountVariation); b++)
+	for (int32 b = 1; b < PickupCount + RandomStream.RandRange(-PickupCountVariation, PickupCountVariation); b++)
 	{
-		int32 MaxIterations = 0;
-		auto Spawner = Spawners[FMath::RandRange(0, Spawners.Num() - 1)];
-		while (Spawner->IsEnemy || Spawner->isUsed)
+		if (Spawners.Num() > 0)
 		{
-			Spawner = Spawners[FMath::RandRange(0, Spawners.Num() - 1)];
-			MaxIterations++;
-			if (MaxIterations > SpawnProbeIterations)
+			int32 MaxIterations = 0;
+			auto Spawner = Spawners[RandomStream.RandRange(0, Spawners.Num() - 1)];
+			while (Spawner->IsEnemy || Spawner->isUsed)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("Pickup Spawner not found"));
-				break;
+				Spawner = Spawners[RandomStream.RandRange(0, Spawners.Num() - 1)];
+				MaxIterations++;
+				if (MaxIterations > SpawnProbeIterations)
+				{
+					UE_LOG(LogTemp, Warning, TEXT("Pickup Spawner not found"));
+					break;
+				}
+			}
+			if (MaxIterations < SpawnProbeIterations)
+			{
+				Spawner->Spawn();
 			}
 		}
-		if (MaxIterations < SpawnProbeIterations)
-		{
-			Spawner->Spawn();
-		}
+		
+		
 	}
 	//Tells Spawners to spawn (Enemies)
-	for (int32 b = 1; b < enemyCount + FMath::RandRange(-enemyCountVariation, enemyCountVariation); b++)
+	for (int32 b = 1; b < enemyCount + RandomStream.RandRange(-enemyCountVariation, enemyCountVariation); b++)
 	{
-		int32 MaxIterations = 0;
-		auto Spawner = Spawners[FMath::RandRange(0, Spawners.Num() - 1)];
-		while (!Spawner->IsEnemy || Spawner->isUsed)
+		if (Spawners.Num() > 0)
 		{
-			Spawner = Spawners[FMath::RandRange(0, Spawners.Num() - 1)];
-			MaxIterations++;
-			if (MaxIterations > SpawnProbeIterations)
+			int32 MaxIterations = 0;
+			auto Spawner = Spawners[RandomStream.RandRange(0, Spawners.Num() - 1)];
+			while (!Spawner->IsEnemy || Spawner->isUsed)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("Enemy Spawner not found"));
-				break;
+				Spawner = Spawners[RandomStream.RandRange(0, Spawners.Num() - 1)];
+				MaxIterations++;
+				if (MaxIterations > SpawnProbeIterations)
+				{
+					UE_LOG(LogTemp, Warning, TEXT("Enemy Spawner not found"));
+					break;
+				}
 			}
-		}
-		if (MaxIterations < SpawnProbeIterations)
-		{
-			Spawner->Spawn();
+			if (MaxIterations < SpawnProbeIterations)
+			{
+				Spawner->Spawn();
+			}
 		}
 	}
     
