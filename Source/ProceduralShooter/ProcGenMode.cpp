@@ -9,7 +9,7 @@ void AProcGenMode::BeginPlay()
 	if (auto const World = GetWorld())
         {
 			SeedGameInstance = Cast<UProcGenGameInstance>(World->GetGameInstance());
-			//Sets seed for generation and if the seed variable is set in the header then it uses that. (For testing)
+			RoomCount = SeedGameInstance->GetRoomCount();
 			if (SeedGameInstance)
 			{
 				RandomSeed = SeedGameInstance->GetSeed();

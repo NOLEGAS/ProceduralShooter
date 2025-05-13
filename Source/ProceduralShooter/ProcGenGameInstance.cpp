@@ -22,5 +22,14 @@ int32 UProcGenGameInstance::GenerateSeed()
 void UProcGenGameInstance::OnStart()
 {
 	InstanceSeed = GenerateSeed();
+	InstanceRoomCount = 10;
 }
 
+int32 UProcGenGameInstance::GetRoomCount() const
+{
+	return InstanceRoomCount;
+}
+void UProcGenGameInstance::SetRoomCount(int32 RoomCountToSet)
+{
+	InstanceRoomCount = RoomCountToSet;
+}

@@ -26,5 +26,12 @@ public:
 	void SetSeed(int32 SeedToSet);
 	UFUNCTION(BlueprintCallable)
 	int32 GenerateSeed();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 InstanceRoomCount;
+	UFUNCTION(BlueprintCallable)
+	int32 GetRoomCount() const;
+	UFUNCTION(BlueprintCallable)
+	void SetRoomCount(int32 RoomCountToSet);
 };
 
