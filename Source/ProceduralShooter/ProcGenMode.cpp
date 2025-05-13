@@ -155,7 +155,7 @@ void AProcGenMode::StartPlay()
 	FRandomStream RandomStream(RandomSeed);
 	
 	//Tells Spawners to spawn (Pickups)
-	for (int32 b = 1; b < PickupCount + RandomStream.RandRange(-PickupCountVariation, PickupCountVariation); b++)
+	for (int32 b = 1; b < (PickupCount * (RoomCount * 0.1f)) + RandomStream.RandRange(-PickupCountVariation, PickupCountVariation); b++)
 	{
 		if (Spawners.Num() > 0)
 		{
@@ -180,7 +180,7 @@ void AProcGenMode::StartPlay()
 		
 	}
 	//Tells Spawners to spawn (Enemies)
-	for (int32 b = 1; b < enemyCount + RandomStream.RandRange(-enemyCountVariation, enemyCountVariation); b++)
+	for (int32 b = 1; b < (enemyCount * (RoomCount * 0.1f)) + RandomStream.RandRange(-enemyCountVariation, enemyCountVariation); b++)
 	{
 		if (Spawners.Num() > 0)
 		{
