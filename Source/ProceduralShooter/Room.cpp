@@ -13,7 +13,8 @@ ARoom::ARoom()
 	SetRootComponent(Root);
 	DetectionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("DetectionBox"));
 	DetectionBox->SetupAttachment(Root);
-	DetectionBox->SetBoxExtent(FVector(500,500,500));
+	DetectionBox->AddLocalOffset(FVector(0,0,160));
+	DetectionBox->SetBoxExtent(FVector(500,500,160));
 	DetectionBox->SetGenerateOverlapEvents(true);
 }
 
